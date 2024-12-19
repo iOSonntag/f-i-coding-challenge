@@ -25,13 +25,30 @@ importers:
         specifier: ^5.7.2
         version: 5.7.2
 
+  packages/api:
+    dependencies:
+      zod:
+        specifier: ^3.22.4
+        version: 3.24.1
+
   packages/core:
+    dependencies:
+      '@aws-sdk/client-dynamodb':
+        specifier: ^3.549.0
+        version: 3.714.0
+      '@aws-sdk/lib-dynamodb':
+        specifier: ^3.714.0
+        version: 3.714.0(@aws-sdk/client-dynamodb@3.714.0)
+      '@smithy/node-http-handler':
+        specifier: ^3.3.2
+        version: 3.3.2
+      electrodb:
+        specifier: ^2.14.0
+        version: 2.15.0(@aws-sdk/client-dynamodb@3.714.0)
     devDependencies:
       vitest:
         specifier: ^0.34.6
         version: 0.34.6
-
-  packages/functions: {}
 
   packages/tslib-sst:
     dependencies:

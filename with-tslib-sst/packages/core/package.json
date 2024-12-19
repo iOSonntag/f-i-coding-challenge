@@ -6,6 +6,12 @@
     "test": "sst bind vitest",
     "typecheck": "tsc -noEmit"
   },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.549.0",
+    "@aws-sdk/lib-dynamodb": "^3.714.0",
+    "@smithy/node-http-handler": "^3.3.2",
+    "electrodb": "^2.14.0"
+  },
   "devDependencies": {
     "vitest": "^0.34.6"
   }
