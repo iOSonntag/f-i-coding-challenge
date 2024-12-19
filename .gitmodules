@@ -1,0 +1,3 @@
+[submodule "with-tslib-sst/packages/tslib-sst"]
+	path = with-tslib-sst/packages/tslib-sst
+	url = git@github.com:iOSonntag/tslib-sst.git

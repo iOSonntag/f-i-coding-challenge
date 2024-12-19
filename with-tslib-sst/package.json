@@ -1,0 +1,19 @@
+{
+  "name": "fi-coding-challenge",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {},
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "sst": "3.4.24"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "^18.2.4",
+    "@types/aws-lambda": "8.10.146",
+    "@types/node": "^20.8.3",
+    "typescript": "^5.7.2"
+  }
+}
