@@ -1,0 +1,97 @@
+name: Build & Deploy Server (Vanilla)
+
+on:
+  workflow_call:
+
+
+jobs:
+  deploy-server-vanilla:
+    runs-on: ubuntu-latest
+    steps:
+    
+    # GENERAL SETUP
+    - name: Clone the repository
+      uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+
+    - name: Cache Node Modules
+      uses: actions/cache@v3
+      with:
+        path: vanilla/node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('vanilla/pnpm-lock.yaml') }}
+
+    - name: Cache SST Platform
+      uses: actions/cache@v3
+      with:
+        path: vanilla/.sst/platform
+        key: ${{ runner.os }}-sst-platform-${{ hashFiles('vanilla/pnpm-lock.yaml', 'vanilla/sst.config.ts') }}
+        
+    - name: Cache SST Plugins
+      uses: actions/cache@v3
+      with:
+        path: ~/.config/sst/plugins
+        key: ${{ runner.os }}-sst-plugins-${{ hashFiles('vanilla/pnpm-lock.yaml', 'vanilla/sst.config.ts') }}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '21'
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+    - name: Install dependencies
+      run: |
+        cd vanilla
+        pnpm install --frozen-lockfile
+
+    # - uses: subosito/flutter-action@v2
+    #   with:
+    #     channel: 'stable' 
+    #     cache: true
+    #     cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" 
+    #     cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" 
+    #     pub-cache-key: "flutter-pub:os:-:channel:-:version:-:arch:-:hash:" 
+    #     pub-cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" 
+    # - run: flutter --version
+
+    # GATHER ENVIRONMENT
+    - name: Gather deploy environment
+      id: environment
+      run: |
+        if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          echo "DEPLOY_STAGE=prod" >> $GITHUB_OUTPUT
+          echo "running for environment prod"
+        elif [[ "${{ github.ref }}" == "refs/heads/stage" ]]; then
+          echo "DEPLOY_STAGE=stage" >> $GITHUB_OUTPUT
+          echo "running for environment stage"
+        elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+          echo "DEPLOY_STAGE=dev" >> $GITHUB_OUTPUT
+          echo "running for environment dev"
+        else
+          echo "This branch is not configured for deployment" && exit 1
+        fi
+
+    # SETUP AWS
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-central-1
+
+
+    # DEPLOY
+    - name: Deploy SST project to AWS
+      run: |
+        cd vanilla
+        export SST_BUILD_CONCURRENCY=8
+        pnpm exec sst deploy --stage ${{ steps.environment.outputs.DEPLOY_STAGE }}
+        
+
+    - name: Upload SST Output Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: sst-output
+        path: vanilla/.sst/outputs.json
