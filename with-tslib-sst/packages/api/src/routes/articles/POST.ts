@@ -12,7 +12,7 @@ const Payload = z.object({
   name: z.string().min(1).max(64),
   description: z.string().max(512).optional(),
   price: z.number().gt(0),
-  currency: z.literal('EUR'),
+  currency: z.enum(['EUR']),
 });
 
 export const handler = ApiHub.handlerREST(async () => 

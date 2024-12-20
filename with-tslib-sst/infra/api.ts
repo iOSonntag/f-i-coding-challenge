@@ -59,7 +59,7 @@ export const api = new sst.aws.ApiGatewayV2('Api', {
       'X-Api-Key',
       'X-Amz-Security-Token',
       'X-Amz-User-Agent',
-      'X-User-Id',
+      'X-Terminal-Id',
     ],
   },
   transform: {
@@ -78,6 +78,10 @@ export const api = new sst.aws.ApiGatewayV2('Api', {
   },
 });
 
-api.route(   'GET /articles',       'packages/api/src/routes/articles/GET.handler');
-api.route(  'POST /articles',       'packages/api/src/routes/articles/POST.handler');
+api.route(  'POST /orders',                       'packages/api/src/routes/orders/POST.handler');
+api.route(   'GET /orders/{id}',                  'packages/api/src/routes/orders/{id}/GET.handler');
+
+api.route(   'GET /articles',                     'packages/api/src/routes/articles/GET.handler');
+api.route(  'POST /articles',                     'packages/api/src/routes/articles/POST.handler');
+api.route(  'POST /articles/insert-test-data',    'packages/api/src/routes/articles/insert-test-data/POST.handler');
 

@@ -42,6 +42,9 @@ importers:
       '@smithy/node-http-handler':
         specifier: ^3.3.2
         version: 3.3.2
+      decimal.js:
+        specifier: ^10.4.3
+        version: 10.4.3
       electrodb:
         specifier: ^2.14.0
         version: 2.15.0(@aws-sdk/client-dynamodb@3.714.0)
