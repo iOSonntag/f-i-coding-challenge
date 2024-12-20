@@ -2,7 +2,6 @@
 
 import { OrderArticlesNotFoundError, OrderService } from ':core/services/order-service';
 import { ApiHub } from ':tslib-sst/api-code/api-hub';
-import { useHeader } from ':tslib-sst/api-code/sst-v2/api';
 import { useValidatedPayload } from ':tslib-sst/api-code/use-utilities/payload-data';
 import { apiHubConfig } from 'src/_config/api-hub-config';
 import { useTerminalId } from 'src/utils/use-utillities';

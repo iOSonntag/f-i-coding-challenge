@@ -1,5 +1,5 @@
-import { genUuid } from ':tslib-sst/api-code/use-utilities/value-generators';
-import { Order, OrderArticle, OrderEntity } from '../_database/entities/Order';
+import { genIsoTimestamp, genUuid } from ':tslib-sst/api-code/use-utilities/value-generators';
+import { Order, OrderArticle, OrderEntity, OrderStatusType } from '../_database/entities/Order';
 import { ArticleService } from './article-service';
 import { ItemPosition, PriceCalcService } from './price-calc-service';
 
@@ -28,6 +28,28 @@ export class OrderArticlesNotFoundError extends Error {
     this.name = 'OrderArticlesNotFoundError';
     this.articleIds = articleIds;
   }
+}
+
+
+export const updateOrderStatus = async (orderId: string, status: OrderStatusType): Promise<OrderEntity> =>
+{
+  const order = await Order.patch({
+    orderId: orderId,
+  })
+  .data((attr, op) => 
+  {
+    op.set(attr.status, status);
+
+    if (status === 'PAID')
+    {
+      op.set(attr.paidAt, genIsoTimestamp());
+    }
+  })
+  .go({
+    response: 'all_new',
+  });
+
+  return order.data;
 }
 
 

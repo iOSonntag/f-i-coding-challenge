@@ -1,6 +1,6 @@
 'use strict';
 
-import { OrderService } from ':core/services/order-service';
+import { PaymentService } from ':core/services/payment-service';
 import { ApiHub } from ':tslib-sst/api-code/api-hub';
 import { usePathId } from ':tslib-sst/api-code/use-utilities/payload-data';
 import { apiHubConfig } from 'src/_config/api-hub-config';
@@ -9,15 +9,15 @@ ApiHub.init(apiHubConfig);
 
 export const handler = ApiHub.handlerREST(async () => 
 {
-  const orderId = usePathId();
+  const paymentId = usePathId();
 
-  const order = await OrderService.getOrderById(orderId);
+  const payment = await PaymentService.getPaymentById(paymentId);
 
-  if (!order) return 'RESOURCE_NOT_FOUND';
+  if (!payment) return 'RESOURCE_NOT_FOUND';
 
   return {
     success: true,
-    data: order,
+    data: payment,
   };
 });
 

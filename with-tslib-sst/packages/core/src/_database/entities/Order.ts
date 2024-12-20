@@ -11,6 +11,9 @@ export type OrderArticle = ArticleEntity & {
   quantity: number;
 };
 
+export const OrderStatusTypes = ['PENDING', 'PAID', 'CANCELED'] as const;
+export type OrderStatusType = typeof OrderStatusTypes[number];
+
 export const Order = new Entity({
   model: {
     entity: 'Order',
@@ -23,7 +26,7 @@ export const Order = new Entity({
       required: true,
     },
     status: {
-      type: ['PENDING', 'PAID', 'CANCELED'] as const,
+      type: OrderStatusTypes,
       required: true,
       default: 'PENDING',
     },

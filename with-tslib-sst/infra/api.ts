@@ -80,6 +80,10 @@ export const api = new sst.aws.ApiGatewayV2('Api', {
 
 api.route(  'POST /orders',                       'packages/api/src/routes/orders/POST.handler');
 api.route(   'GET /orders/{id}',                  'packages/api/src/routes/orders/{id}/GET.handler');
+api.route(   'PUT /orders/{id}/status',           'packages/api/src/routes/orders/{id}/status/PUT.handler');
+
+api.route(  'POST /payments',                     'packages/api/src/routes/payments/POST.handler');
+api.route(   'GET /payments/{id}',                'packages/api/src/routes/payments/{id}/GET.handler');
 
 api.route(   'GET /articles',                     'packages/api/src/routes/articles/GET.handler');
 api.route(  'POST /articles',                     'packages/api/src/routes/articles/POST.handler');
