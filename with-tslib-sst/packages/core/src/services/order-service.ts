@@ -2,19 +2,20 @@ import { genIsoTimestamp, genUuid } from ':tslib-sst/api-code/use-utilities/valu
 import { Order, OrderArticle, OrderEntity, OrderStatusType } from '../_database/entities/Order';
 import { ArticleService } from './article-service';
 import { ItemPosition, PriceCalcService } from './price-calc-service';
+import { Dev } from ':tslib-sst/api-code/utils/dev';
 
 
 
 export * as OrderService from './order-service';
 
-type OrderArticleSlim = {
+type OrderArticleIdOnly = {
   articleId: string;
   quantity: number;
 };
 
 type CreateOrderParams = {
   terminalId: string;
-  articles: OrderArticleSlim[];
+  articles: OrderArticleIdOnly[];
 };
 
 
@@ -31,8 +32,16 @@ export class OrderArticlesNotFoundError extends Error {
 }
 
 
+/**
+ * Update the status of an order. If the status is `'PAID'`, the `paidAt` field
+ * will be set to the current time. 
+ * 
+ * @returns The updated order.
+ */
 export const updateOrderStatus = async (orderId: string, status: OrderStatusType): Promise<OrderEntity> =>
 {
+  Dev.log('Updating order status...', orderId, status);
+
   const order = await Order.patch({
     orderId: orderId,
   })
@@ -42,6 +51,8 @@ export const updateOrderStatus = async (orderId: string, status: OrderStatusType
 
     if (status === 'PAID')
     {
+      Dev.log('Setting paidAt...');
+
       op.set(attr.paidAt, genIsoTimestamp());
     }
   })
@@ -49,21 +60,36 @@ export const updateOrderStatus = async (orderId: string, status: OrderStatusType
     response: 'all_new',
   });
 
+  Dev.log('Updated order:', order.data);
+
   return order.data;
 }
 
 
+/**
+ * Get an order by its ID. Returns `null` if no order is found.
+ */
 export const getOrderById = async (orderId: string): Promise<OrderEntity | null> =>
 {
+  Dev.log('Getting order by ID...', orderId);
+
   const order = await Order.get({
     orderId: orderId,
   }).go();
 
+  Dev.log('Order:', order.data);
+
   return order.data;
 }
 
+/**
+ * Create a new order.
+ */
 export const createOrder = async (params: CreateOrderParams): Promise<OrderEntity> =>
 {
+  Dev.log('Creating order...', params);
+
+  Dev.log('Merging articles...');
   const mergedArticles = mergeArticles(params.articles);
 
   const articleEntities = await Promise.all(mergedArticles.map(article => ArticleService.getArticleById(article.articleId)));
@@ -79,6 +105,8 @@ export const createOrder = async (params: CreateOrderParams): Promise<OrderEntit
 
   if (missingArticles.length > 0)
   {
+    Dev.logIssue('Missing articles:', missingArticles);
+
     throw new OrderArticlesNotFoundError(missingArticles);
   }
 
@@ -90,6 +118,8 @@ export const createOrder = async (params: CreateOrderParams): Promise<OrderEntit
   const total = PriceCalcService.calculateTotal(orderArticles);
 
   // Create the order
+  Dev.log('Creating order in database...');
+
   const response = await Order.create({
     orderId: genUuid(),
     terminalId: params.terminalId,
@@ -97,12 +127,18 @@ export const createOrder = async (params: CreateOrderParams): Promise<OrderEntit
     total: total,
   }).go();
 
+  Dev.log('Created order:', response.data);
+
   return response.data;
 }
 
-const mergeArticles = (articles: OrderArticleSlim[]): OrderArticleSlim[] =>
+/**
+ * Merge articles with the same ID in a list of articles and add up their
+ * quantities.
+ */
+const mergeArticles = (articles: OrderArticleIdOnly[]): OrderArticleIdOnly[] =>
 {
-  const result: Record<string, OrderArticleSlim> = {};
+  const result: Record<string, OrderArticleIdOnly> = {};
 
   for (const article of articles)
   {

@@ -9,12 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-    # GENERAL SETUP
+    # CLONE REPOSITORY
     - name: Clone the repository
       uses: actions/checkout@v3
       with:
         submodules: 'true'
 
+    # SETUP CACHES
     - name: Cache Node Modules
       uses: actions/cache@v3
       with:
@@ -33,6 +34,7 @@ jobs:
         path: ~/.config/sst/plugins
         key: ${{ runner.os }}-sst-plugins-${{ hashFiles('with-tslib-sst/pnpm-lock.yaml', 'with-tslib-sst/sst.config.ts') }}
 
+    # GENERAL SETUP
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:

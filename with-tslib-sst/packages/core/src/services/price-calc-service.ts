@@ -1,5 +1,6 @@
 
 
+import { Dev } from ':tslib-sst/api-code/utils/dev';
 import Decimal from 'decimal.js';
 
 export * as PriceCalcService from './price-calc-service';
@@ -17,12 +18,15 @@ export type ItemPosition = {
  */
 export const calculateTotal = (positions: ItemPosition[]): { amount: number, currency: string } =>
 {
+  Dev.log('Calculating total...', positions);
+
   let total = new Decimal(0);
 
   for (const position of positions)
   {
     if (position.currency !== 'EUR')
     {
+      Dev.logIssue('Only EUR currency is supported', position);
       throw new Error('Only EUR currency is supported');
     }
 
@@ -30,8 +34,12 @@ export const calculateTotal = (positions: ItemPosition[]): { amount: number, cur
     total = total.plus(positionTotal);
   }
 
-  return {
+  const result = {
     amount: total.toNumber(),
     currency: 'EUR',
   };
+
+  Dev.log('Total:', result);
+
+  return result;
 }
