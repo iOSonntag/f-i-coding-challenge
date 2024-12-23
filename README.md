@@ -9,18 +9,51 @@ Clone the repository including submodules:
 git clone --recurse-submodules https://github.com/iOSonntag/f-i-coding-challenge.git
 ```
 
+Now inside the repository root run the following:
+
+```sh
+pnpm i
+```
+
+This will install all dependencies for the monorepo.
+  
+> **Still using npm?**  
+> *Get pnpm via* `npm install -g pnpm`  
+> *More info on pnpm [here](https://pnpm.io/).*
+
+Next we need to install the [sst](https://sst.dev/) cloud providers using:
+
+```sh
+pnpm exec sst install
+```
+
+This will essentially install the [pulumi AWS providers](https://www.pulumi.com/registry/packages/aws/) in order for sst to
+communicate with the AWS cloud and setup our resources.
+
 ### Local development
 
 To start local development enter the following shell command. On the first run
 you might need to specify a name for the local stage:
 
-```shell
+```sh
 pnpm dev
 ```
 
-> **Note**
-> *You need to have valid AWS credentials set up on your machine. You can do this by running `aws configure` and following the instructions.*
+> **Note**  
+> *You need to have valid AWS credentials set up on your machine. You can do
+> this by running* `aws configure` *and then follow the instructions.*
 
+The first deployment will take a while, but after that you can make changes to
+the code and see the changes in real time. Both infrastructural changes and code
+changes.
+
+The deployment will return an API Gateway URL which will be your endpoint for
+local development. sst will route the requests from the API Gateway service to your
+lambda functions and then to your IDE execute the code locally and pass back the
+response to the aws lambda function and finally to the API Gateway as a
+response.  
+This ensures that your local development environment is as close as possible to
+the real AWS environment.
 
 ## Further improvements
 
