@@ -19,20 +19,20 @@ jobs:
     - name: Cache Node Modules
       uses: actions/cache@v3
       with:
-        path: with-tslib-sst/node_modules
-        key: ${{ runner.os }}-node-modules-${{ hashFiles('with-tslib-sst/pnpm-lock.yaml') }}
+        path: node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('pnpm-lock.yaml') }}
 
     - name: Cache SST Platform
       uses: actions/cache@v3
       with:
-        path: with-tslib-sst/.sst/platform
-        key: ${{ runner.os }}-sst-platform-${{ hashFiles('with-tslib-sst/pnpm-lock.yaml', 'with-tslib-sst/sst.config.ts') }}
+        path: .sst/platform
+        key: ${{ runner.os }}-sst-platform-${{ hashFiles('pnpm-lock.yaml', 'sst.config.ts') }}
         
     - name: Cache SST Plugins
       uses: actions/cache@v3
       with:
         path: ~/.config/sst/plugins
-        key: ${{ runner.os }}-sst-plugins-${{ hashFiles('with-tslib-sst/pnpm-lock.yaml', 'with-tslib-sst/sst.config.ts') }}
+        key: ${{ runner.os }}-sst-plugins-${{ hashFiles('pnpm-lock.yaml', 'sst.config.ts') }}
 
     # GENERAL SETUP
     - name: Set up Node.js
@@ -45,7 +45,6 @@ jobs:
         version: 8
     - name: Install dependencies
       run: |
-        cd with-tslib-sst
         pnpm install --frozen-lockfile
 
     # GATHER ENVIRONMENT
@@ -76,14 +75,12 @@ jobs:
     # TEST
     - name: Run tests
       run: |
-        cd with-tslib-sst
         cd packages/core
         pnpm test
 
     # DEPLOY
     - name: Deploy SST project to AWS
       run: |
-        cd with-tslib-sst
         export SST_BUILD_CONCURRENCY=8
         pnpm exec sst deploy --stage ${{ steps.environment.outputs.DEPLOY_STAGE }}
         
@@ -92,4 +89,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: sst-output
-        path: with-tslib-sst/.sst/outputs.json
+        path: .sst/outputs.json
