@@ -1,5 +1,13 @@
 # f-i-coding-challenge
 
+![Dynamic JSON
+Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FiOSonntag%2Ff-i-coding-challenge%2Fmain%2Fpackage.json&query=%24.version&label=version)
+![Static Badge](https://img.shields.io/badge/strict-d?label=TypeScript)
+[![build](https://github.com/iOSonntag/f-i-coding-challenge/actions/workflows/branch-push.yaml/badge.svg?branch=main)](https://github.com/iOSonntag/f-i-coding-challenge/actions/workflows/branch-push.yaml)
+
+
+This is the repository contains the solution for a coding challenge from a
+company. The task was to create a RESTful API for a fictional self checkout system.
 
 ## Getting started
 
