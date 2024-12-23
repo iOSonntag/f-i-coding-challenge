@@ -1,10 +1,14 @@
 import { useHeader } from ':tslib-sst/api-code/sst-v2/api';
+import { Context } from ':tslib-sst/api-code/sst-v2/context2';
 import { throwResponse } from ':tslib-sst/api-code/throw-utilities/responses';
 import { Dev } from ':tslib-sst/api-code/utils/dev';
 
 
 
-export const useTerminalId = (): string =>
+/**
+ * Get the terminal ID from the connected client via headers.
+ */
+export const useTerminalId = Context.memo(() =>
 {
   const terminalId = useHeader('X-Terminal-Id') ?? useHeader('x-terminal-id');
   
@@ -14,5 +18,7 @@ export const useTerminalId = (): string =>
     throw throwResponse('BAD_REQUEST');
   }
 
+  Dev.log('Terminal ID:', terminalId);
+
   return terminalId;
-}
+});
