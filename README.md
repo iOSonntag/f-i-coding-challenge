@@ -1,6 +1,35 @@
 # f-i-coding-challenge
 
 
+
+
+
+### Local development
+
+To start local development enter the following shell command. On the first run
+you might need to specify a name for the local stage:
+
+```shell
+pnpm dev
+```
+
+> **Note**
+> *You need to have valid AWS credentials set up on your machine. You can do this by running `aws configure` and following the instructions.*
+
+
+## Further improvements
+
+- implement article availability (amount in stock)
+- implement price change during checkout checks
+- use proper authentication for endpoints (admin for create article and user
+  based / terminal based auth for default endpoints)
+- the package `packages/core` is meant to be fully covered by tests. This is not
+  the case yet, mainly because it directly accesses DynamoDB. This should be
+  mocked and tested properly.
+
+
+
+
 Within this repository you can find two folders containing almost the same solutions for the given coding challenge. The only difference is that the `with-tslib-sst` folder contains a solution including my own open source aws sst library ([tslib-sst](https://github.com/iOSonntag/tslib-sst)) where as the `vanilla` folder contains a solution that compiles without my own library.
 
 > *For more information please visit the README.md files in the sub directories.*
