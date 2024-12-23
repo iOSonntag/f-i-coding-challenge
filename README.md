@@ -6,7 +6,7 @@ Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubuse
 [![build](https://github.com/iOSonntag/f-i-coding-challenge/actions/workflows/branch-push.yaml/badge.svg?branch=main)](https://github.com/iOSonntag/f-i-coding-challenge/actions/workflows/branch-push.yaml)
 
 
-This is the repository contains the solution for a coding challenge from a
+This repository contains the solution for a coding challenge from a
 company. The task was to create a RESTful API for a fictional self checkout system.
 
 ## Getting started
