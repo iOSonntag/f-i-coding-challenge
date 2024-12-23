@@ -1,4 +1,4 @@
-import { genIsoTimestamp, genUuid } from ':tslib-sst/api-code/use-utilities/value-generators';
+import { genIsoTimestamp, genUuid } from '@iosonntag/tslib-sst/api-code/use-utilities/value-generators';
 import { StringAttribute } from 'electrodb';
 
 

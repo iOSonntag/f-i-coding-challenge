@@ -1,6 +1,6 @@
 
 
-import { Dev } from ':tslib-sst/api-code/utils/dev';
+import { Dev } from '@iosonntag/tslib-sst/api-code/utils/dev';
 import Decimal from 'decimal.js';
 
 export * as PriceCalcService from './price-calc-service';

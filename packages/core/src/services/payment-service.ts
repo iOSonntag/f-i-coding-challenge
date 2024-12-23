@@ -1,8 +1,8 @@
-import { genUuid } from ':tslib-sst/api-code/use-utilities/value-generators';
+import { genUuid } from '@iosonntag/tslib-sst/api-code/use-utilities/value-generators';
 import { OrderService } from './order-service';
 import { Payment, PaymentEntity } from '../_database/entities/Payment';
 import { PaymentProviderXYZService } from './payment-provider-xyz-service';
-import { Dev } from ':tslib-sst/api-code/utils/dev';
+import { Dev } from '@iosonntag/tslib-sst/api-code/utils/dev';
 
 
 

@@ -1,8 +1,8 @@
 'use strict';
 
-import { ArticleService } from ':core/services/article-service';
-import { ApiHub } from ':tslib-sst/api-code/api-hub';
-import { useValidatedPayload } from ':tslib-sst/api-code/use-utilities/payload-data';
+import { ArticleService } from '@app/core/services/article-service';
+import { ApiHub } from '@iosonntag/tslib-sst/api-code/api-hub';
+import { useValidatedPayload } from '@iosonntag/tslib-sst/api-code/use-utilities/payload-data';
 import { apiHubConfig } from 'src/_config/api-hub-config';
 import { z } from 'zod';
 

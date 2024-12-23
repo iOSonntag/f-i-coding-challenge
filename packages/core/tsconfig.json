@@ -4,7 +4,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
-      ":tslib-sst/*": ["../tslib-sst/src/*"]
+      "@iosonntag/tslib-sst/*": ["../tslib-sst/src/*"]
     }
   },
 }

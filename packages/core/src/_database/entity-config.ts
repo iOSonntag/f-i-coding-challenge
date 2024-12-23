@@ -1,6 +1,6 @@
 
 
-import { Dev } from ':tslib-sst/api-code/utils/dev';
+import { Dev } from '@iosonntag/tslib-sst/api-code/utils/dev';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { NodeHttpHandler } from '@smithy/node-http-handler';

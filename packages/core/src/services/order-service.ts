@@ -1,8 +1,8 @@
-import { genIsoTimestamp, genUuid } from ':tslib-sst/api-code/use-utilities/value-generators';
+import { genIsoTimestamp, genUuid } from '@iosonntag/tslib-sst/api-code/use-utilities/value-generators';
 import { Order, OrderArticle, OrderEntity, OrderStatusType } from '../_database/entities/Order';
 import { ArticleService } from './article-service';
 import { ItemPosition, PriceCalcService } from './price-calc-service';
-import { Dev } from ':tslib-sst/api-code/utils/dev';
+import { Dev } from '@iosonntag/tslib-sst/api-code/utils/dev';
 
 
 

@@ -1,9 +1,9 @@
 'use strict';
 
-import { OrderStatusTypes } from ':core/_database/entities/Order';
-import { OrderService } from ':core/services/order-service';
-import { ApiHub } from ':tslib-sst/api-code/api-hub';
-import { usePathId, useValidatedPayload } from ':tslib-sst/api-code/use-utilities/payload-data';
+import { OrderStatusTypes } from '@app/core/_database/entities/Order';
+import { OrderService } from '@app/core/services/order-service';
+import { ApiHub } from '@iosonntag/tslib-sst/api-code/api-hub';
+import { usePathId, useValidatedPayload } from '@iosonntag/tslib-sst/api-code/use-utilities/payload-data';
 import { apiHubConfig } from 'src/_config/api-hub-config';
 import { z } from 'zod';
 

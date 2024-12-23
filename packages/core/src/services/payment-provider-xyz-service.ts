@@ -1,5 +1,5 @@
-import { genUuid } from ':tslib-sst/api-code/use-utilities/value-generators';
-import { Dev } from ':tslib-sst/api-code/utils/dev';
+import { genUuid } from '@iosonntag/tslib-sst/api-code/use-utilities/value-generators';
+import { Dev } from '@iosonntag/tslib-sst/api-code/utils/dev';
 
 
 

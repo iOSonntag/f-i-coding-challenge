@@ -1,5 +1,5 @@
-import { ApiHubConfig } from ':tslib-sst/api-code/api-hub';
-import { Dev } from ':tslib-sst/api-code/utils/dev';
+import { ApiHubConfig } from '@iosonntag/tslib-sst/api-code/api-hub';
+import { Dev } from '@iosonntag/tslib-sst/api-code/utils/dev';
 import { Resource } from 'sst';
 
 

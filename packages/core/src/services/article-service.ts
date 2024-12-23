@@ -1,7 +1,7 @@
-import { genUuid } from ':tslib-sst/api-code/use-utilities/value-generators';
+import { genUuid } from '@iosonntag/tslib-sst/api-code/use-utilities/value-generators';
 import { Article, ArticleEntity } from '../_database/entities/Article';
 import { PaginatedResponse } from './_models';
-import { Dev } from ':tslib-sst/api-code/utils/dev';
+import { Dev } from '@iosonntag/tslib-sst/api-code/utils/dev';
 
 
 

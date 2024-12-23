@@ -1,7 +1,7 @@
-import { useHeader } from ':tslib-sst/api-code/sst-v2/api';
-import { Context } from ':tslib-sst/api-code/sst-v2/context2';
-import { throwResponse } from ':tslib-sst/api-code/throw-utilities/responses';
-import { Dev } from ':tslib-sst/api-code/utils/dev';
+import { useHeader } from '@iosonntag/tslib-sst/api-code/sst-v2/api';
+import { Context } from '@iosonntag/tslib-sst/api-code/sst-v2/context2';
+import { throwResponse } from '@iosonntag/tslib-sst/api-code/throw-utilities/responses';
+import { Dev } from '@iosonntag/tslib-sst/api-code/utils/dev';
 
 
 

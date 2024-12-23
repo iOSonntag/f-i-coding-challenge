@@ -5,8 +5,8 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      ":core/*": ["../core/src/*"],
-      ":tslib-sst/*": ["../tslib-sst/src/*"]
+      "@app/core/*": ["../core/src/*"],
+      "@iosonntag/tslib-sst/*": ["../tslib-sst/src/*"]
     }
   },
 }
