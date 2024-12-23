@@ -9,6 +9,8 @@ Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubuse
 This repository contains the solution for a coding challenge from a
 company. The task was to create a RESTful API for a fictional self checkout system.
 
+<br>
+
 ## Getting started
 
 Clone the repository including submodules:
@@ -68,6 +70,8 @@ the real AWS environment.
 > example you can use the AWS SDK to access DynamoDB or S3 in the local stage.*
 
 
+<br>
+
 ## Infrastructure and deployment
 
 The infrastructure and api code will be deployed using GitHub Actions in 3
@@ -87,6 +91,8 @@ An overview of the infrastructure can be seen in the following diagram:
 
 <img src="docs/infrastructure.png?raw=true"> 
 
+
+<br>
 
 ## Project structure
 
@@ -127,6 +133,8 @@ source library [tslib-sst](https://github.com/iOSonntag/tslib-sst). This library
 is not published on npm that is why it is included as a submodule in this
 repository.
 
+<br>
+
 ## Some notes on tslib-sst
 
 Using [tslib-sst](https://github.com/iOSonntag/tslib-sst) adds several benefits to the api with minimal effort. That includes (but not limited to):
@@ -149,6 +157,8 @@ the difference between the two approaches and get a sense of the underlying bene
 
 
 
+<br>
+
 ## Some notes on CloudWatch logs
 
 This project uses the `tslib-sst` for logging. This means that the logs are not
@@ -156,6 +166,8 @@ emitted immediately but are buffered and flushed in a batch if an issue occurs.
 This is done to minimize the costs of CloudWatch logs. If this is not the
 desired behavior you can opt out of this feature by setting the `alwaysEmitLogs`
 setting to `true` in the `ApiHubConfig` located at `packages/api/src/_config/api-hub-config.ts`.
+
+<br>
 
 ## Monitor the API
 
@@ -166,6 +178,8 @@ To monitor the API you can use the [sst console](https://console.sst.dev/).
 > have an sst account and that account needs to be linked to the AWS account
 > that the sst cloud stack is deployed to. More on that can be found [here](https://sst.dev/docs/console/).*
 
+
+<br>
 
 ## Some notes on the task specifications
 
@@ -199,6 +213,8 @@ using a proper authentication method. This could be done using AWS Cognito, api 
 a custom authentication method. Especially creating articles should be secured
 in a way that no enduser terminal can access this endpoint.
 
+<br>
+
 ## Further improvements
 
 - The package `packages/core` is meant to be fully covered by tests. This is not
@@ -217,7 +233,12 @@ in a way that no enduser terminal can access this endpoint.
   service that could be used with different payment providers. This would make
   it easier to switch payment providers in the future.
 
+<br>
+
 ## Endpoint specifications
 
 The endpoint documentation can be found at [`docs/ENDPOINTS.md`](docs/ENDPOINTS.md).
 
+
+<br>
+<br>
