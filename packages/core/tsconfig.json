@@ -3,8 +3,9 @@
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "node",
+    "baseUrl": ".",
     "paths": {
       "@iosonntag/tslib-sst/*": ["../tslib-sst/src/*"]
     }
-  },
+  }
 }
