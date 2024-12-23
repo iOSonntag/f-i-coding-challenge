@@ -27,7 +27,7 @@ export const getArticleById = async (articleId: string): Promise<ArticleEntity |
  * Get a list of articles.
  * @param cursor The cursor to start from. Pass in no cursor to get the first page.
  */
-export const getArticles = async (cursor?: string): Promise<PaginatedResponse<ArticleEntity>> =>
+export const getArticles = async (limit: number, cursor?: string): Promise<PaginatedResponse<ArticleEntity>> =>
 {
   Dev.log('Getting articles...', cursor);
 
@@ -35,7 +35,7 @@ export const getArticles = async (cursor?: string): Promise<PaginatedResponse<Ar
   }).go({
     cursor: cursor,
     pages: 'all',
-    limit: 25,
+    limit: limit,
   });
 
   Dev.log('Articles:', articles.data, articles.cursor);

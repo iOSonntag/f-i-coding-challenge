@@ -62,11 +62,37 @@ the real AWS environment.
 
 ## Infrastructure and deployment
 
+The infrastructure and api code will be deployed using GitHub Actions in 3
+seperate stages (`prod`, `stage`, `dev`). The deployment is triggered by a push
+to the branches `main`, `stage` and `dev` respectively if the commit message
+contains the `[ci]` flag.
+
+Example commit message:
+```
+feat: some awesome feature [ci]
+```
+
+After that the GitHub Actions will run the tests, build the code and deploys
+infrastructure and api code to the AWS cloud.
+
+An overview of the infrastructure can be seen in the following diagram:
 
 <img src="docs/infrastructure.png?raw=true"> 
 
 
 ## Project structure
+
+
+> **Note**  
+> *Many files are hidden using the* `.vscode/settings.json` *file. This is to keep
+> the repository clean and to avoid confusion. If you want to see all files, just
+> remove the* `files.exclude` *section from the* `settings.json` *file or use the
+> following plugin:*
+>  
+> [VSCode plugin Explorer
+> Exclude](https://marketplace.visualstudio.com/items?itemName=PeterSchmalfeldt.explorer-exclude)  
+> *This allows you to toggle the hidden files with a single command:*  
+> `> ExplorerExclude: Toggle Visibility`.
 
 The project is structured as a monorepo with the following parts:
 
@@ -77,18 +103,18 @@ in combination with the settings in the `sst.config.ts` file using the sst
 framework. During deployment it will create API Gateway Lambda functions using
 the source code from the `packages/api` directory.
 
-### @app/api
+### API
 
 The `packages/api` directory contains the source code for the API. To perform
 business logic it uses the `packages/core` package.
 
-### @app/core
+### Core 
 
 The `packages/core` directory contains the business logic.
 
-### @iosonntag/tslib-sst
+### Custom sst library
 
-The `packages/tslib-sst` directory contains the source code for my own open
+The `packages/tslib-sst` directory contains the source code of my own open
 source library [tslib-sst](https://github.com/iOSonntag/tslib-sst). This library
 is not published on npm that is why it is included as a submodule in this
 repository.
@@ -123,60 +149,67 @@ This is done to minimize the costs of CloudWatch logs. If this is not the
 desired behavior you can opt out of this feature by setting the `alwaysEmitLogs`
 setting to `true` in the `ApiHubConfig` located at `packages/api/src/_config/api-hub-config.ts`.
 
+## Monitor the API
+
+To monitor the API you can use the [sst console](https://console.sst.dev/). 
+
+> **Note**  
+> *In order to use the sst console for cloud evironments (not local) you need to
+> have an sst account and that account needs to be linked to the AWS account
+> that the sst cloud stack is deployed to. More on that can be found [here](https://sst.dev/docs/console/).*
 
 
+## Some notes on the task specifications
+
+To follow the RESTful API conventions I have changed a few routes:
+
+- `POST /order` changed to `POST /orders`
+- `GET /order/{id}` changed to `GET /orders/{id}`
+- `PUT /order/{id}` changed to `PUT /orders/{id}/status`
+- `POST /payment` changed to `POST /payments`
+- `GET /payment/{id}` changed to `GET /payments/{id}`
+
+I also added another route for convenience:
+
+- `POST /articles/insert-test-data` to insert test data into the database
+
+**Also note:**
+
+The data models are far from perfect. There are many parts missing that a real
+world application would need to have. That includes but is not limited to:
+
+- article images
+- VAT calculation
+- article availability (amount in stock)
+- price change during checkout checks
+- discounts
+- etc.
+
+Additionally one important part is missing. There is no authentication for the
+api. This is a big issue for a real world application. The api should be secured
+using a proper authentication method. This could be done using AWS Cognito, api keys or
+a custom authentication method. Especially creating articles should be secured
+in a way that no enduser terminal can access this endpoint.
 
 ## Further improvements
 
-- implement article availability (amount in stock)
-- implement price change during checkout checks
-- use proper authentication for endpoints (admin for create article and user
-  based / terminal based auth for default endpoints)
-- the package `packages/core` is meant to be fully covered by tests. This is not
+- The package `packages/core` is meant to be fully covered by tests. This is not
   the case yet, mainly because it directly accesses DynamoDB. This should be
   mocked and tested properly.
+- The terminal id is set during order creation but is not really used anywhere.
+  It could be used to ensure that the terminal that created the order is the one
+  that can change the status of the order. Or it could be used to filter orders
+  by terminal. Or any other use case that would require the terminal id.
+- The endpoint `PUT /orders/{id}/status` currently contains no checks. It would
+  be great if the status could not be changed from `PAID` or `CANCELED` to
+  `PENDING`. Also I think it would be better to eliminate this endpoint all
+  together and let the payment provider webhooks or payment reciept validation
+  endpoints change the status of the order.
+- The payment provider service could be abstracted into a generic payment provider
+  service that could be used with different payment providers. This would make
+  it easier to switch payment providers in the future.
 
+## Endpoint specifications
 
+The endpoint documentation can be found at [`docs/ENDPOINTS.md`](docs/ENDPOINTS.md).
 
-
-Within this repository you can find two folders containing almost the same solutions for the given coding challenge. The only difference is that the `with-tslib-sst` folder contains a solution including my own open source aws sst library ([tslib-sst](https://github.com/iOSonntag/tslib-sst)) where as the `vanilla` folder contains a solution that compiles without my own library.
-
-> *For more information please visit the README.md files in the sub directories.*
-
-## Why create two solutions?
-
-Using [tslib-sst](https://github.com/iOSonntag/tslib-sst) adds several benefits to the api with minimal effort. That includes (but not limited to):
-
-- better api responses
-- log flushing to minimize AWS CloudWatch costs
-- more robust api error handling
-- AWS services convenient methods
-- less bloated api functions
-
-But it also adds another layer of complexity for a first reader. That is why I created the `vanilla` version which is the recommended starting point.
-
-## Some notes to the underlying repository structure
-
-Both solutions / versions assume that they live in the root of the repository - both for documentation and developer commands.
-
-The main difference becomes visible in the `packages/api` directory.
-
-**Also note:**  
-The ci / cd setup deploys the `with-tslib-sst` version by default. To deploy the `vanilla` version instead use the commit message flag `[vanilla]`.
-
-E.g.
-```
-feat: some awesome feature [ci][vanilla]
-```
-
-**And one last important note:**
-
-Many files are hidden using the `.vscode/settings.json` file. This is to keep
-the repository clean and to avoid confusion. If you want to see all files, just
-remove the `files.exclude` section from the `settings.json` file or use the
-following plugin for that:
-
-> I use the VSCode plugin [Explorer
-> Exclude](https://marketplace.visualstudio.com/items?itemName=PeterSchmalfeldt.explorer-exclude).
-> This allows you to toggle the hidden files with a single command:
-> `> ExplorerExclude: Toggle Visibility`.

@@ -10,8 +10,10 @@ ApiHub.init(apiHubConfig);
 export const handler = ApiHub.handlerREST(async () => 
 {
   const cursor = useQueryParam('cursor');
+  const limitString = useQueryParam('limit');
+  const limit = limitString ? parseInt(limitString) : 20;
 
-  const articles = await ArticleService.getArticles(cursor);
+  const articles = await ArticleService.getArticles(limit, cursor);
 
   return {
     success: true,
