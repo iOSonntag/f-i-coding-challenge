@@ -48,16 +48,6 @@ jobs:
         cd with-tslib-sst
         pnpm install --frozen-lockfile
 
-    # - uses: subosito/flutter-action@v2
-    #   with:
-    #     channel: 'stable' 
-    #     cache: true
-    #     cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" 
-    #     cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" 
-    #     pub-cache-key: "flutter-pub:os:-:channel:-:version:-:arch:-:hash:" 
-    #     pub-cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" 
-    # - run: flutter --version
-
     # GATHER ENVIRONMENT
     - name: Gather deploy environment
       id: environment

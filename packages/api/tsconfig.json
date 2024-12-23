@@ -4,6 +4,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "@app/core/*": ["../core/src/*"],
       "@iosonntag/tslib-sst/*": ["../tslib-sst/src/*"]

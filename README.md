@@ -55,6 +55,77 @@ response.
 This ensures that your local development environment is as close as possible to
 the real AWS environment.
 
+> **Good to know**  
+> *You can even use the AWS SDK in your code and it will work as expected. For
+> example you can use the AWS SDK to access DynamoDB or S3 in the local stage.*
+
+
+## Infrastructure and deployment
+
+
+<img src="docs/infrastructure.png?raw=true"> 
+
+
+## Project structure
+
+The project is structured as a monorepo with the following parts:
+
+### Cloud infrastructure (IaC)
+
+The `infra` directory contains the infrastructure as code and will be deployed
+in combination with the settings in the `sst.config.ts` file using the sst
+framework. During deployment it will create API Gateway Lambda functions using
+the source code from the `packages/api` directory.
+
+### @app/api
+
+The `packages/api` directory contains the source code for the API. To perform
+business logic it uses the `packages/core` package.
+
+### @app/core
+
+The `packages/core` directory contains the business logic.
+
+### @iosonntag/tslib-sst
+
+The `packages/tslib-sst` directory contains the source code for my own open
+source library [tslib-sst](https://github.com/iOSonntag/tslib-sst). This library
+is not published on npm that is why it is included as a submodule in this
+repository.
+
+## Some notes on tslib-sst
+
+Using [tslib-sst](https://github.com/iOSonntag/tslib-sst) adds several benefits to the api with minimal effort. That includes (but not limited to):
+
+- better api responses
+- log flushing to minimize AWS CloudWatch costs
+- more robust api error handling
+- AWS services convenient methods
+- less bloated api functions
+
+But it also adds another layer of complexity for a first reader. That is why I
+created a copy of the api route `POST /articles` that does not use tslib-sst.
+You can find these two routes here:
+
+- `packages/api/src/routes/articles/POST.ts` (with `tslib-sst`)
+- `packages/api/src/routes/articles/POST.vanilla.ts` (without `tslib-sst`)
+
+This way you can see
+the difference between the two approaches and get a sense of the underlying benefits.
+
+
+
+## Some notes on CloudWatch logs
+
+This project uses the `tslib-sst` for logging. This means that the logs are not
+emitted immediately but are buffered and flushed in a batch if an issue occurs.
+This is done to minimize the costs of CloudWatch logs. If this is not the
+desired behavior you can opt out of this feature by setting the `alwaysEmitLogs`
+setting to `true` in the `ApiHubConfig` located at `packages/api/src/_config/api-hub-config.ts`.
+
+
+
+
 ## Further improvements
 
 - implement article availability (amount in stock)
