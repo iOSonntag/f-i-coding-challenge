@@ -1,8 +1,14 @@
 # f-i-coding-challenge
 
 
+## Getting started
 
+Clone the repository including submodules:
 
+```sh
+git clone --recurse-submodules https://github.com/iOSonntag/f-i-coding-challenge.git
+cd bar
+```
 
 ### Local development
 
